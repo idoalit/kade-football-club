@@ -49,9 +49,9 @@ class DetailActivity : AppCompatActivity(), DetailView {
         val intent = intent
         eventId = intent.getStringExtra(EVENT_ID_KEY)
         favoriteState()
-        presenter.onCreateView(eventId)
+        presenter.getDetailEvent(eventId)
         root.onRefresh {
-            presenter.onCreateView(eventId)
+            presenter.getDetailEvent(eventId)
         }
     }
 
@@ -91,9 +91,9 @@ class DetailActivity : AppCompatActivity(), DetailView {
                     Favorite.AWAY_SCORE to event.intAwayScore
                     )
             }
-            snackbar(root, getString(R.string.added_to_favorite)).show()
+            root.snackbar(getString(R.string.added_to_favorite)).show()
         } catch (e: SQLiteConstraintException) {
-            snackbar(root, e.localizedMessage).show()
+            root.snackbar(e.localizedMessage).show()
         }
     }
 
@@ -102,9 +102,9 @@ class DetailActivity : AppCompatActivity(), DetailView {
             database.use {
                 delete(Favorite.TABLE_FAVORITE, "(EVENT_ID = {id})", "id" to eventId)
             }
-            snackbar(root, getString(R.string.removed_from_favorite)).show()
+            root.snackbar(getString(R.string.removed_from_favorite)).show()
         } catch (e: SQLiteConstraintException) {
-            snackbar(root, e.localizedMessage).show()
+            root.snackbar(e.localizedMessage).show()
         }
     }
 

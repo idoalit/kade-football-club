@@ -18,11 +18,7 @@ class DetailPresenter(
     private val gson: Gson
 ) {
 
-    fun onCreateView(eventId: String?) {
-        getDetailEvent(eventId)
-    }
-
-    private fun getDetailEvent(eventId: String?) {
+    fun getDetailEvent(eventId: String?) {
         view.showLoading()
 
         GlobalScope.launch(Dispatchers.Main) {

@@ -48,7 +48,7 @@ class EventFragment : Fragment(), EventView {
     }
 
     override fun showMessage(message: String) {
-        snackbar(root, message).show()
+        root.snackbar(message).show()
     }
 
     override fun showEventList(list: List<Event>) {
