@@ -1,10 +1,10 @@
 package com.idoalit.footballmatchschedule
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import com.idoalit.footballmatchschedule.screens.AboutFragment
 import com.idoalit.footballmatchschedule.screens.EventFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -20,8 +20,8 @@ class MainActivity : AppCompatActivity() {
                 addFragment(EventFragment.newInstance(EventFragment.NEXT_EVENT))
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_about -> {
-                addFragment(AboutFragment())
+            R.id.navigation_favorite -> {
+                addFragment(EventFragment.newInstance(EventFragment.FAVORITE_EVENT))
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
          addFragment(EventFragment.newInstance(EventFragment.LAST_EVENT))
     }
 
+    @SuppressLint("PrivateResource")
     fun addFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()

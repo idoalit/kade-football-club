@@ -7,4 +7,5 @@ interface EventView {
     fun hideLoading()
     fun showEventList(list: List<Event>)
     fun showDetail(eventId: String?)
+    fun showMessage(message: String)
 }
