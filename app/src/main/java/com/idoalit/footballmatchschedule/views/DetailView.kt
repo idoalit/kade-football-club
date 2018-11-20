@@ -7,4 +7,6 @@ interface DetailView {
     fun hideLoading()
     fun showTeamLogo(strImage: String?, team: String)
     fun showDetailData(event: Event)
+    fun addToFavorite()
+    fun removeFromFavorite()
 }

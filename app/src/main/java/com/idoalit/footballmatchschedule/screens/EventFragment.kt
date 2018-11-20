@@ -4,6 +4,7 @@ package com.idoalit.footballmatchschedule.screens
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -18,6 +19,8 @@ import com.idoalit.footballmatchschedule.api.ApiRespository
 import com.idoalit.footballmatchschedule.models.Event
 import com.idoalit.footballmatchschedule.presenters.EventPresenter
 import com.idoalit.footballmatchschedule.views.EventView
+import kotlinx.android.synthetic.main.activity_detail.*
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.startActivity
 
@@ -25,6 +28,7 @@ class EventFragment : Fragment(), EventView {
 
     private var eventList: MutableList<Event> = mutableListOf()
     private var league: String = "4328"
+    private var event: String? = ""
     private lateinit var adapter: MainAdapter
     private lateinit var presenter: EventPresenter
     private lateinit var listEvent: RecyclerView
@@ -43,6 +47,10 @@ class EventFragment : Fragment(), EventView {
         swipeLayout.isRefreshing = false
     }
 
+    override fun showMessage(message: String) {
+        snackbar(root, message).show()
+    }
+
     override fun showEventList(list: List<Event>) {
         eventList.clear()
         eventList.addAll(list)
@@ -55,13 +63,14 @@ class EventFragment : Fragment(), EventView {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_event, container, false)
-        val event = arguments?.getString(EVENT_KEY)
+        event = arguments?.getString(EVENT_KEY)
 
         listEvent = view.findViewById(R.id.recyclerView)
         swipeLayout = view.findViewById(R.id.swipeLayout)
         eventTitle = view.findViewById(R.id.event_title)
 
         listEvent.layoutManager = LinearLayoutManager(context)
+        listEvent.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         adapter = MainAdapter(eventList) {
             // start detail activity
             showDetail(it.idEvent)
@@ -80,13 +89,25 @@ class EventFragment : Fragment(), EventView {
         return view
     }
 
-    fun getEvent(event: String?) {
-        if (event === LAST_EVENT) {
-            eventTitle.text = "Last Match"
-            presenter.getPastEventList(league)
-        } else {
-            eventTitle.text = "Next Match"
-            presenter.getNextEventList(league)
+    override fun onResume() {
+        super.onResume()
+        getEvent(event)
+    }
+
+    private fun getEvent(event: String?) {
+        when (event) {
+            LAST_EVENT -> {
+                eventTitle.text = getString(R.string.last_match)
+                presenter.getPastEventList(league)
+            }
+            NEXT_EVENT -> {
+                eventTitle.text = getString(R.string.next_match)
+                presenter.getNextEventList(league)
+            }
+            FAVORITE_EVENT -> {
+                eventTitle.text = getString(R.string.favorite_match)
+                presenter.getFavoriteEvent(context)
+            }
         }
     }
 
@@ -95,6 +116,7 @@ class EventFragment : Fragment(), EventView {
         private const val EVENT_KEY = "EVENT_KEY"
         const val LAST_EVENT = "LAST_EVENT"
         const val NEXT_EVENT = "NEXT_EVENT"
+        const val FAVORITE_EVENT = "FAVORITE_EVENT"
 
         fun newInstance(event: String?) : EventFragment {
             val fragment = EventFragment()
