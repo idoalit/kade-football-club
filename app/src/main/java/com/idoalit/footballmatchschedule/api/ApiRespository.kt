@@ -1,12 +1,13 @@
 package com.idoalit.footballmatchschedule.api
 
-import android.util.Log
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.net.URL
 
 class ApiRespository {
 
-    fun doRequest(url: String) :String {
-        Log.d("URL REQUEST", url)
-        return URL(url).readText()
+    fun doRequest(url: String) : Deferred<String> = GlobalScope.async {
+        URL(url).readText()
     }
 }
