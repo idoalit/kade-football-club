@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.idoalit.footballmatchschedule.models.Event
 import kotlinx.android.synthetic.main.item_event_list.view.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class MainAdapter(private val list: List<Event>, private val listener: (Event) -> Unit) :
     RecyclerView.Adapter<MainAdapter.EventViewHolder>() {

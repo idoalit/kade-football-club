@@ -10,6 +10,9 @@ import com.idoalit.footballmatchschedule.models.Event
 import com.idoalit.footballmatchschedule.models.EventResponse
 import com.idoalit.footballmatchschedule.models.Favorite
 import com.idoalit.footballmatchschedule.views.EventView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.doAsync
@@ -22,31 +25,27 @@ class EventPresenter(
 ) {
     fun getPastEventList(league: String?) {
         view.showLoading()
-        doAsync {
+
+        GlobalScope.launch(Dispatchers.Main) {
             val data = gson.fromJson(apiRespository
-                .doRequest(TheSportDBApi.getPastEvent(league)),
+                .doRequest(TheSportDBApi.getPastEvent(league)).await(),
                 EventResponse::class.java
             )
-
-            uiThread {
-                view.hideLoading()
-                view.showEventList(data.events)
-            }
+            view.hideLoading()
+            view.showEventList(data.events)
         }
     }
 
     fun getNextEventList(league: String?) {
         view.showLoading()
-        doAsync {
+
+        GlobalScope.launch(Dispatchers.Main) {
             val data = gson.fromJson(apiRespository
-                .doRequest(TheSportDBApi.getNextEvent(league)),
+                .doRequest(TheSportDBApi.getNextEvent(league)).await(),
                 EventResponse::class.java
             )
-
-            uiThread {
-                view.hideLoading()
-                view.showEventList(data.events)
-            }
+            view.hideLoading()
+            view.showEventList(data.events)
         }
     }
 
