@@ -100,7 +100,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
     override fun removeFromFavorite() {
         try {
             database.use {
-                delete(Favorite.TABLE_FAVORITE, "(EVENT_ID = {id})", "id" to eventId)
+                delete(Favorite.TABLE_FAVORITE, "(${Favorite.EVENT_ID} = {id})", "id" to eventId)
             }
             root.snackbar(getString(R.string.removed_from_favorite)).show()
         } catch (e: SQLiteConstraintException) {

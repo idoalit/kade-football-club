@@ -15,14 +15,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class EventPresenter(
     private val view: EventView,
     private val apiRespository: ApiRespository,
     private val gson: Gson
 ) {
+
     fun getPastEventList(league: String?) {
         view.showLoading()
 

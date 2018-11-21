@@ -27,10 +27,7 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
 
         @Synchronized
         fun getInstance(ctx: Context): MyDatabaseOpenHelper {
-            if (instance == null) {
-                instance = MyDatabaseOpenHelper(ctx.applicationContext)
-            }
-            return instance as MyDatabaseOpenHelper
+            return instance ?: MyDatabaseOpenHelper(ctx)
         }
     }
 

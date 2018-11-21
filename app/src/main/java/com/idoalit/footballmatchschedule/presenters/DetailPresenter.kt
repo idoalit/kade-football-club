@@ -9,8 +9,6 @@ import com.idoalit.footballmatchschedule.views.DetailView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class DetailPresenter(
     private val view: DetailView,

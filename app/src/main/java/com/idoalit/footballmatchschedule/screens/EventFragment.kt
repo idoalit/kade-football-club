@@ -1,7 +1,10 @@
 package com.idoalit.footballmatchschedule.screens
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.test.espresso.idling.CountingIdlingResource
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
@@ -19,10 +22,9 @@ import com.idoalit.footballmatchschedule.api.ApiRespository
 import com.idoalit.footballmatchschedule.models.Event
 import com.idoalit.footballmatchschedule.presenters.EventPresenter
 import com.idoalit.footballmatchschedule.views.EventView
-import kotlinx.android.synthetic.main.activity_detail.*
-import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.startActivity
+import com.idoalit.footballmatchschedule.MainActivity
 
 class EventFragment : Fragment(), EventView {
 
@@ -34,6 +36,7 @@ class EventFragment : Fragment(), EventView {
     private lateinit var listEvent: RecyclerView
     private lateinit var swipeLayout: SwipeRefreshLayout
     private lateinit var eventTitle: TextView
+    private lateinit var countingIdlingResource: CountingIdlingResource
 
     override fun showDetail(eventId: String?) {
         startActivity<DetailActivity>(DetailActivity.EVENT_ID_KEY to "$eventId")
@@ -48,15 +51,17 @@ class EventFragment : Fragment(), EventView {
     }
 
     override fun showMessage(message: String) {
-        root.snackbar(message).show()
+        Snackbar.make(swipeLayout, message, Snackbar.LENGTH_LONG).show()
     }
 
     override fun showEventList(list: List<Event>) {
         eventList.clear()
         eventList.addAll(list)
         adapter.notifyDataSetChanged()
+        countingIdlingResource.decrement()
     }
 
+    @SuppressLint("VisibleForTests")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,6 +69,8 @@ class EventFragment : Fragment(), EventView {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_event, container, false)
         event = arguments?.getString(EVENT_KEY)
+
+        countingIdlingResource = (activity as MainActivity).getIdlingResource()
 
         listEvent = view.findViewById(R.id.recyclerView)
         swipeLayout = view.findViewById(R.id.swipeLayout)
@@ -95,6 +102,7 @@ class EventFragment : Fragment(), EventView {
     }
 
     private fun getEvent(event: String?) {
+        countingIdlingResource.increment()
         when (event) {
             LAST_EVENT -> {
                 eventTitle.text = getString(R.string.last_match)
