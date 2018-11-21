@@ -1,7 +1,7 @@
 package com.idoalit.footballmatchschedule.presenters
 
 import com.google.gson.Gson
-import com.idoalit.footballmatchschedule.api.ApiRespository
+import com.idoalit.footballmatchschedule.api.ApiRepository
 import com.idoalit.footballmatchschedule.api.TheSportDBApi
 import com.idoalit.footballmatchschedule.models.Event
 import com.idoalit.footballmatchschedule.models.EventResponse
@@ -23,7 +23,7 @@ class DetailPresenterTest {
     private lateinit var detailView: DetailView
 
     @Mock
-    private lateinit var apiRespository: ApiRespository
+    private lateinit var apiRepository: ApiRepository
 
     @Mock
     private lateinit var gson: Gson
@@ -33,7 +33,7 @@ class DetailPresenterTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        detailPresenter = DetailPresenter(detailView, apiRespository, gson)
+        detailPresenter = DetailPresenter(detailView, apiRepository, gson)
     }
 
     @Test
@@ -45,7 +45,7 @@ class DetailPresenterTest {
         val response = EventResponse(eventList)
 
         GlobalScope.launch {
-            `when`(gson.fromJson(apiRespository.doRequest(TheSportDBApi.getDetalEvent(eventId)).await(),
+            `when`(gson.fromJson(apiRepository.doRequest(TheSportDBApi.getDetalEvent(eventId)).await(),
                 EventResponse::class.java))
                 .thenReturn(response)
 
@@ -65,7 +65,7 @@ class DetailPresenterTest {
         val response = TeamResponse(teamList)
 
         GlobalScope.launch {
-            `when`(gson.fromJson(apiRespository.doRequest(TheSportDBApi.getDetailTeam(teamId)).await(),
+            `when`(gson.fromJson(apiRepository.doRequest(TheSportDBApi.getDetailTeam(teamId)).await(),
                 TeamResponse::class.java))
                 .thenReturn(response)
 

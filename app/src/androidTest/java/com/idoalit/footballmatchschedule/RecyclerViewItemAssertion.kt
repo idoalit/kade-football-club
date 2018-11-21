@@ -7,7 +7,7 @@ import android.view.View
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 
-class RecyclerViewItemAssertion(val expectedCount: Int): ViewAssertion {
+class RecyclerViewItemAssertion(private val expectedCount: Int): ViewAssertion {
     override fun check(view: View?, noViewFoundException: NoMatchingViewException?) {
         val recyclerView: RecyclerView = view as RecyclerView
         val adapter = recyclerView.adapter

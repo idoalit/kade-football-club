@@ -8,7 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.google.gson.Gson
 import com.idoalit.footballmatchschedule.R
-import com.idoalit.footballmatchschedule.api.ApiRespository
+import com.idoalit.footballmatchschedule.api.ApiRepository
 import com.idoalit.footballmatchschedule.database.database
 import com.idoalit.footballmatchschedule.models.Event
 import com.idoalit.footballmatchschedule.models.Favorite
@@ -42,7 +42,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setContentView(R.layout.activity_detail)
 
-        val request = ApiRespository()
+        val request = ApiRepository()
         val gson = Gson()
         presenter = DetailPresenter(this, request, gson)
 

@@ -3,7 +3,7 @@ package com.idoalit.footballmatchschedule.presenters
 import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import com.google.gson.Gson
-import com.idoalit.footballmatchschedule.api.ApiRespository
+import com.idoalit.footballmatchschedule.api.ApiRepository
 import com.idoalit.footballmatchschedule.api.TheSportDBApi
 import com.idoalit.footballmatchschedule.database.database
 import com.idoalit.footballmatchschedule.models.Event
@@ -18,7 +18,7 @@ import org.jetbrains.anko.db.select
 
 class EventPresenter(
     private val view: EventView,
-    private val apiRespository: ApiRespository,
+    private val apiRepository: ApiRepository,
     private val gson: Gson
 ) {
 
@@ -26,7 +26,7 @@ class EventPresenter(
         view.showLoading()
 
         GlobalScope.launch(Dispatchers.Main) {
-            val data = gson.fromJson(apiRespository
+            val data = gson.fromJson(apiRepository
                 .doRequest(TheSportDBApi.getPastEvent(league)).await(),
                 EventResponse::class.java
             )
@@ -39,7 +39,7 @@ class EventPresenter(
         view.showLoading()
 
         GlobalScope.launch(Dispatchers.Main) {
-            val data = gson.fromJson(apiRespository
+            val data = gson.fromJson(apiRepository
                 .doRequest(TheSportDBApi.getNextEvent(league)).await(),
                 EventResponse::class.java
             )

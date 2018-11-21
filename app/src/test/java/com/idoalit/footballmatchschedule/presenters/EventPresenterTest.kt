@@ -1,7 +1,7 @@
 package com.idoalit.footballmatchschedule.presenters
 
 import com.google.gson.Gson
-import com.idoalit.footballmatchschedule.api.ApiRespository
+import com.idoalit.footballmatchschedule.api.ApiRepository
 import com.idoalit.footballmatchschedule.api.TheSportDBApi
 import com.idoalit.footballmatchschedule.models.Event
 import com.idoalit.footballmatchschedule.models.EventResponse
@@ -21,7 +21,7 @@ class EventPresenterTest {
     private lateinit var eventView: EventView
 
     @Mock
-    private lateinit var apiRepository: ApiRespository
+    private lateinit var apiRepository: ApiRepository
 
     @Mock
     private lateinit var gson: Gson

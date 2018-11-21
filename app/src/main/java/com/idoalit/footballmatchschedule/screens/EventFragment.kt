@@ -18,7 +18,7 @@ import com.google.gson.Gson
 import com.idoalit.footballmatchschedule.MainAdapter
 
 import com.idoalit.footballmatchschedule.R
-import com.idoalit.footballmatchschedule.api.ApiRespository
+import com.idoalit.footballmatchschedule.api.ApiRepository
 import com.idoalit.footballmatchschedule.models.Event
 import com.idoalit.footballmatchschedule.presenters.EventPresenter
 import com.idoalit.footballmatchschedule.views.EventView
@@ -84,7 +84,7 @@ class EventFragment : Fragment(), EventView {
         }
         listEvent.adapter = adapter
 
-        val request = ApiRespository()
+        val request = ApiRepository()
         val gson = Gson()
         presenter = EventPresenter(this, request, gson)
 
